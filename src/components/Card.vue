@@ -1,10 +1,11 @@
 <template>
-  <div class="home">
+  <div>
+    <input type='text'/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'home'
+  name: 'Card'
 }
 </script>
