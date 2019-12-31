@@ -1,7 +1,7 @@
 <template>
   <div class='card'>
-    <textarea class='card-name' v-bind:value='name' v-stream:input='name$'/>
-    <textarea class='card-body'/>
+    <textarea class='card-name' v-bind:value='name' v-stream:input='{subject: input$, data: "name"}'/>
+    <textarea class='card-body' v-bind:value='body' v-stream:input='{subject: input$, data: "body"}'/>
   </div>
 </template>
 
@@ -16,15 +16,22 @@ export default {
       subscriptions: []
     };
   },
-  domStreams: ['name$'],
+  domStreams: ['input$'],
   created () {
     this.$store.commit('createCard', {id: this.num});
     this.subscriptions.push(
-      this.name$.pipe(
+      this.input$.pipe(
         debounceTime(750),
-        map(x => x.event.target.value)
+        map(x => ({value: x.event.target.value, type: x.data}))
       )
-      .subscribe(x => this.$store.commit('changeName', {newName: x, id: this.num}))
+      .subscribe(({value, type}) => {
+        if (type === 'name') {
+          this.$store.commit('changeName', {newName: value, id: this.num});
+        }
+        else if (type === 'body') {
+          this.$store.commit('changeBody', {newBody: value, id: this.num});
+        }
+      })
     );
   },
   beforeDestroy () {
@@ -32,10 +39,18 @@ export default {
       sub.unsubscribe();
     }
   },
+  methods: {
+    getState() {
+      const index = this.$store.state.cards.findIndex(x => x.id === this.num);
+      return this.$store.state.cards[index];
+    }
+  },
   computed: {
     name () {
-      const index = this.$store.state.cards.findIndex(x => x.id === this.num);
-      return this.$store.state.cards[index].name;
+      return this.getState().name;
+    },
+    body () {
+      return this.getState().body;
     }
   }
 }
