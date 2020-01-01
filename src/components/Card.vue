@@ -52,7 +52,7 @@ export default {
       return this.getState().body;
     }
   }
-}
+};
 </script>
 
 <style scoped>
