@@ -22,7 +22,7 @@ export default {
 <style scoped>
 .home {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   align-items: flex-start;
   justify-content: flex-start;
 }
