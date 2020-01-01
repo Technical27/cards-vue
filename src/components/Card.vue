@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import {Subject} from 'rxjs';
 import {map, debounceTime} from 'rxjs/operators';
 export default {
   name: 'Card',
