@@ -18,3 +18,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.home {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+</style>
