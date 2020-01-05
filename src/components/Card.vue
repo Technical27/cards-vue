@@ -1,7 +1,15 @@
 <template>
-  <div class='card'>
-    <textarea class='card-name' v-bind:value='name' v-stream:input='{subject: input$, data: "name"}'/>
-    <textarea class='card-body' v-bind:value='body' v-stream:input='{subject: input$, data: "body"}'/>
+  <div class="card">
+    <textarea
+      class="card-name"
+      v-bind:value="name"
+      v-stream:input="{subject: input$, data: 'name'}"
+    />
+    <textarea
+      class="card-body"
+      v-bind:value="body"
+      v-stream:input="{subject: input$, data: 'body'}"
+    />
   </div>
 </template>
 
@@ -16,24 +24,24 @@ export default {
     };
   },
   domStreams: ['input$'],
-  created () {
+  created() {
     this.$store.commit('createCard', {id: this.num});
     this.subscriptions.push(
-      this.input$.pipe(
-        debounceTime(750),
-        map(x => ({value: x.event.target.value, type: x.data}))
-      )
-      .subscribe(({value, type}) => {
-        if (type === 'name') {
-          this.$store.commit('changeName', {newName: value, id: this.num});
-        }
-        else if (type === 'body') {
-          this.$store.commit('changeBody', {newBody: value, id: this.num});
-        }
-      })
+      this.input$
+        .pipe(
+          debounceTime(750),
+          map(x => ({value: x.event.target.value, type: x.data}))
+        )
+        .subscribe(({value, type}) => {
+          if (type === 'name') {
+            this.$store.commit('changeName', {newName: value, id: this.num});
+          } else if (type === 'body') {
+            this.$store.commit('changeBody', {newBody: value, id: this.num});
+          }
+        })
     );
   },
-  beforeDestroy () {
+  beforeDestroy() {
     for (const sub of this.subscriptions) {
       sub.unsubscribe();
     }
@@ -45,10 +53,10 @@ export default {
     }
   },
   computed: {
-    name () {
+    name() {
       return this.getState().name;
     },
-    body () {
+    body() {
       return this.getState().body;
     }
   }

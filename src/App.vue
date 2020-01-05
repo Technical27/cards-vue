@@ -1,11 +1,12 @@
 <template>
-  <div id='app'>
-    <router-view id='view'/>
+  <div id="app">
+    <router-view id="view" />
   </div>
 </template>
 
 <style>
-#app, #view {
+#app,
+#view {
   height: 100%;
 }
 </style>
